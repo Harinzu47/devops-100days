@@ -1,0 +1,10 @@
+[2026-03-20 18:54:07] Memulai backup: /etc/ssh → /tmp/ssh-backup/backup_20260320_185407.tar.gz
+[2026-03-20 18:54:07] [ERROR] Backup gagal! Membersihkan file parsial...
+[2026-03-20 18:55:20] Memulai backup: /etc/ssh → /tmp/ssh-backup/backup_20260320_185520.tar.gz
+[2026-03-20 18:55:20] [OK] Backup selesai: /tmp/ssh-backup/backup_20260320_185520.tar.gz (28K)
+[2026-03-20 18:55:20] Menghapus backup lebih dari 3 hari...
+[2026-03-20 18:55:20] [OK] Rotasi backup selesai
+[2026-03-20 18:56:23] Memulai backup: /home/harinzu/devops-100days → /tmp/devops-backup/backup_20260320_185623.tar.gz
+[2026-03-20 18:56:23] [OK] Backup selesai: /tmp/devops-backup/backup_20260320_185623.tar.gz (24K)
+[2026-03-20 18:56:23] Menghapus backup lebih dari 3 hari...
+[2026-03-20 18:56:23] [OK] Rotasi backup selesai
