@@ -1,0 +1,45 @@
+# Global settings
+Host *
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    IdentitiesOnly yes
+    AddKeysToAgent yes
+
+# Lab: localhost sebagai dev server
+Host devops-lab
+    HostName localhost
+    User harinzu
+    Port 22
+    IdentityFile ~/.ssh/id_ed25519
+
+# Lab: localhost dengan work key
+Host dev-work
+    HostName localhost
+    User harinzu
+    Port 22
+    IdentityFile ~/.ssh/id_work
+
+# Contoh: staging (tidak ada di lab)
+Host staging
+    HostName staging.myapp.com
+    User deploy
+    Port 2222
+    IdentityFile ~/.ssh/id_work
+
+# Contoh: bastion + server private
+Host bastion
+    HostName 203.0.113.10
+    User ec2-user
+    IdentityFile ~/.ssh/id_work
+    ForwardAgent yes
+
+Host prod-web
+    HostName 10.0.1.10
+    User ec2-user
+    IdentityFile ~/.ssh/id_work
+    ProxyJump bastion
+
+# GitHub
+Host github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519
