@@ -1,0 +1,64 @@
+---
+- name: Install and configure nginx
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Ensure default nginx config is clean
+      copy:
+        content: |
+          server {
+              listen 80 default_server;
+              root /var/www/html;
+              index index.html;
+              server_name _;
+              location / {
+                  try_files $uri $uri/ =404;
+              }
+          }
+        dest: /etc/nginx/sites-available/default
+        mode: '0644'
+      notify: Reload nginx
+
+    - name: Start and enable nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Create custom index page
+      copy:
+        content: |
+          <html>
+          <body>
+            <h1>Ansible managed server</h1>
+            <p>Hostname: {{ inventory_hostname }}</p>
+            <p>OS: {{ ansible_distribution }} {{ ansible_distribution_version }}</p>
+          </body>
+          </html>
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Verify nginx is responding
+      uri:
+        url: http://localhost
+        status_code: 200
+      register: result
+
+    - name: Show nginx status
+      debug:
+        msg: "Nginx responding with status {{ result.status }}"
+
+  handlers:
+    - name: Reload nginx
+      service:
+        name: nginx
+        state: reloaded

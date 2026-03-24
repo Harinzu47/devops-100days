@@ -1,0 +1,41 @@
+---
+- name: Initial server setup
+  hosts: local
+  become: yes
+
+  vars:
+    packages:
+      - curl
+      - wget
+      - git
+      - htop
+      - tree
+      - unzip
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install essential packages
+      apt:
+        name: "{{ packages }}"
+        state: present
+
+    - name: Create devops group
+      group:
+        name: devops
+        state: present
+
+    - name: Ensure /opt/scripts directory exists
+      file:
+        path: /opt/scripts
+        state: directory
+        mode: '0755'
+        owner: root
+        group: root
+
+    - name: Show server info
+      debug:
+        msg: "Server {{ inventory_hostname }} setup complete!"
